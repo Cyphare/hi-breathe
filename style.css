@@ -86,6 +86,8 @@ nav a {
     display: inline-block;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     transition: all 0.3s ease;
+    font-size: clamp(0.65rem, 2.5vw, 0.95rem);
+    white-space: nowrap;
 }
 
 nav a:hover {
@@ -520,10 +522,8 @@ footer {
 
 /* --- Contact Page Specific Styles --- */
 
-/* Main area gradient background */
+/* Main area background */
 .contact-main {
-    /* A soft radial gradient to mimic the colorful blur in the design */
-    background: radial-gradient(circle at 70% 30%, rgba(220, 230, 235, 0.8) 0%, rgba(230, 220, 235, 0.5) 40%, #e4e9f0 100%);
     padding: 20px 0 80px;
     position: relative;
 }
@@ -1075,17 +1075,22 @@ footer {
 
     nav ul {
         gap: 10px;
-        justify-content: center;
-        flex-wrap: wrap;
-        overflow-x: visible;
-        max-width: none;
-        padding-bottom: 0;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        max-width: 100%;
+        padding-bottom: 2px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    nav ul::-webkit-scrollbar {
+        display: none;
     }
 
     nav a {
         padding: 9px 18px;
-        font-size: 0.95rem;
-        white-space: normal;
+        white-space: nowrap;
     }
 
     .welcome h2,
@@ -1228,6 +1233,23 @@ footer {
 @media (max-width: 480px) {
     .container {
         padding: 0 14px;
+    }
+
+    nav ul {
+        gap: 8px;
+    }
+
+    nav a {
+        padding: 8px 14px;
+        white-space: nowrap;
+    }
+
+    nav ul li:first-child a {
+        padding-left: 8px;
+    }
+
+    nav ul li:last-child a {
+        padding-right: 8px;
     }
 
     .welcome {
