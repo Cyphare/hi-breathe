@@ -15,6 +15,17 @@
     box-sizing: border-box;
 }
 
+img,
+iframe,
+svg {
+    max-width: 100%;
+}
+
+img {
+    height: auto;
+    display: block;
+}
+
 body {
     /* Soft gradient background to match your design */
     background: linear-gradient(to bottom, #e4e9f0 0%, #f7f8fa 50%, #e4e9f0 100%);
@@ -22,6 +33,7 @@ body {
     font-family: var(--font-sans);
     min-height: 100vh;
     text-align: center;
+    overflow-x: hidden;
 }
 
 /* --- Header Section --- */
@@ -1000,4 +1012,309 @@ footer {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Responsive Layout --- */
+@media (max-width: 1024px) {
+    header {
+        padding: 40px 18px 24px;
+        gap: 22px;
+    }
+
+    .hero-overlay-box {
+        padding: 40px 48px;
+        width: calc(100% - 36px);
+    }
+
+    .overview,
+    .vision-mission,
+    .contact-card {
+        gap: 24px;
+    }
+
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .major-categories {
+        grid-template-columns: 1fr;
+    }
+
+    .project-grid-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .pub-card {
+        padding: 26px 28px;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 28px 16px 20px;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 22px;
+    }
+
+    .header-titles {
+        text-align: center;
+        max-width: 1000px;
+    }
+
+    .header-titles h1 {
+        font-size: 1.8rem;
+        line-height: normal;
+    }
+
+    .header-titles p {
+        font-size: 0.95rem;
+        line-height: normal;
+    }
+
+    nav ul {
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+        overflow-x: visible;
+        max-width: none;
+        padding-bottom: 0;
+    }
+
+    nav a {
+        padding: 9px 18px;
+        font-size: 0.95rem;
+        white-space: normal;
+    }
+
+    .welcome h2,
+    .page-title-banner h2,
+    .hero-overlay-box h3,
+    .team-cta-banner h2 {
+        font-size: 1.8rem;
+    }
+
+    .hero {
+        height: 300px;
+    }
+
+    .hero-overlay-box {
+        padding: 28px 24px;
+        border-radius: 28px;
+        width: calc(100% - 24px);
+    }
+
+    .cta-buttons {
+        gap: 14px;
+        padding-bottom: 60px;
+    }
+
+    .btn,
+    .cta-btn-dark {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .overview,
+    .vision-mission,
+    .facilities-grid,
+    .team-grid,
+    .contact-card,
+    .footer-content,
+    .major-categories,
+    .project-grid-section,
+    .pub-card,
+    .pub-top-bar,
+    .pub-controls,
+    .search-container {
+        grid-template-columns: 1fr;
+        flex-direction: column;
+    }
+
+    .overview,
+    .vision-mission,
+    .contact-card,
+    .footer-content,
+    .pub-card {
+        display: flex;
+    }
+
+    .overview,
+    .vision-mission,
+    .contact-card,
+    .footer-content,
+    .pub-card,
+    .pub-top-bar,
+    .pub-controls,
+    .search-container {
+        align-items: stretch;
+    }
+
+    .overview .text-card,
+    .overview .image-card,
+    .vm-block,
+    .contact-form-col,
+    .contact-info-col,
+    .footer-links,
+    .footer-location,
+    .pub-info,
+    .pub-meta {
+        width: 100%;
+    }
+
+    .overview,
+    .vision-mission,
+    .contact-card,
+    .footer-content,
+    .pub-card {
+        flex-direction: column;
+    }
+
+    .facilities-grid,
+    .team-grid,
+    .project-grid-section {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .project-grid-section {
+        width: 100%;
+    }
+
+    .major-title {
+        left: 20px;
+        right: 20px;
+        bottom: 20px;
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    .pub-top-bar {
+        margin-bottom: 20px;
+        gap: 14px;
+    }
+
+    .pub-controls {
+        gap: 10px;
+    }
+
+    .search-input,
+    .search-confirm-btn,
+    .sort-confirm-btn,
+    .control-btn {
+        width: 100%;
+    }
+
+    .sort-dropdown {
+        width: min(100%, 280px);
+    }
+
+    .pub-links {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .footer-content {
+        gap: 28px;
+        text-align: center;
+    }
+
+    .footer-links {
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 14px;
+    }
+
+    .welcome {
+        margin-bottom: 32px;
+    }
+
+    .hero {
+        height: 260px;
+        margin-bottom: 36px;
+    }
+
+    .hero-overlay-box {
+        padding: 22px 18px;
+    }
+
+    .page-title-banner {
+        padding: 22px 0;
+        margin-bottom: 28px;
+    }
+
+    .card,
+    .contact-card,
+    .pub-card,
+    .team-cta-banner {
+        border-radius: 18px;
+    }
+
+    .overview,
+    .vision-mission,
+    .facilities,
+    .activities,
+    .team-section,
+    .publication-main,
+    .research-main,
+    .contact-main {
+        margin-bottom: 42px;
+    }
+
+    .facilities-grid,
+    .team-grid,
+    .mosaic-grid,
+    .project-grid-section {
+        gap: 14px;
+    }
+
+    .major-categories {
+        gap: 18px;
+    }
+
+    .major-card {
+        padding: 12px;
+    }
+
+    .major-img {
+        aspect-ratio: 3 / 4;
+    }
+
+    .mosaic-grid {
+        grid-auto-rows: 160px;
+    }
+
+    .team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pub-card {
+        padding: 20px 18px;
+    }
+
+    .pub-title {
+        font-size: 1.1rem;
+    }
+
+    .pub-authors {
+        font-size: 0.98rem;
+    }
+
+    .pub-journal,
+    .pub-year {
+        font-size: 0.92rem;
+    }
+
+    .contact-card {
+        padding: 24px 18px;
+    }
+
+    .team-cta-banner {
+        padding: 36px 20px;
+    }
 }

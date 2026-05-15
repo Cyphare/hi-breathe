@@ -167,6 +167,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    if (projectGrids.length > 0) {
+        projectGrids.forEach((grid) => {
+            grid.style.display = 'none';
+            grid.hidden = true;
+        });
+    }
+
     majorCards.forEach((card) => {
         card.addEventListener('click', () => {
             const targetId = card.getAttribute('data-target');
@@ -178,11 +185,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             dynamicTitle.textContent = targetTitle;
 
-            projectGrids.forEach((grid) => grid.classList.remove('active-grid'));
+            projectGrids.forEach((grid) => {
+                grid.classList.remove('active-grid');
+                grid.style.display = 'none';
+                grid.hidden = true;
+            });
 
             const activeGrid = document.getElementById(targetId);
             if (activeGrid) {
                 activeGrid.classList.add('active-grid');
+                activeGrid.style.display = 'grid';
+                activeGrid.hidden = false;
             }
 
             dynamicBanner.style.display = 'block';
