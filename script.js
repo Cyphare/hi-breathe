@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const contactForm = document.getElementById('contactForm');
-    const contactEmail = 'example@dteti.ugm.ac.id';
+    const contactEmail = 'ridwan.wicaksono@ugm.ac.id';
 
     if (contactForm) {
         contactForm.addEventListener('submit', (event) => {
