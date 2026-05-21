@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (siteHeader) {
         siteHeader.innerHTML = `
             <div class="header-titles">
-                <h1><a href="index.html">Hi-Breath Laboratory</a></h1>
+                <h1><a href="index.html">Breathe Laboratory</a></h1>
                 <p>Department of Electrical Engineering and Information Engineering UGM</p>
             </div>
             <nav>
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (siteFooter) {
         siteFooter.innerHTML = `
             <div class="footer-top">
-                <h2>Hi-Breath Laboratory</h2>
+                <h2>Breathe Laboratory</h2>
             </div>
             <div class="footer-content">
                 <div class="footer-links">
@@ -59,13 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Hi-Breath Laboratory, DTETI FT UGM. All rights reserved.</p>
+                <p>&copy; 2026 Breathe Laboratory, DTETI FT UGM. All rights reserved.</p>
             </div>
         `;
     }
 
     const contactForm = document.getElementById('contactForm');
-    const contactEmail = 'hibreath@dteti.ugm.ac.id';
+    const contactEmail = 'example@dteti.ugm.ac.id';
 
     if (contactForm) {
         contactForm.addEventListener('submit', (event) => {
