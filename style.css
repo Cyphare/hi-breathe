@@ -82,16 +82,17 @@ nav a {
     font-family: var(--font-serif);
     background-color: var(--white);
     padding: 10px 35px;
-    border-radius: 30px; /* Creates the pill shape */
+    border-radius: 30px;
+    /* Creates the pill shape */
     display: inline-block;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
     font-size: clamp(0.65rem, 2.5vw, 0.95rem);
     white-space: nowrap;
 }
 
 nav a:hover {
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
     transform: translateY(-2px);
 }
 
@@ -113,7 +114,7 @@ nav a:hover {
     width: 100%;
     height: 380px;
     /* Placeholder lab image. Replace the URL below with your actual image file once you have it in your folder */
-    background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000&auto=format&fit=crop'); 
+    background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2000&auto=format&fit=crop');
     background-size: cover;
     background-position: center;
     display: flex;
@@ -126,18 +127,23 @@ nav a:hover {
 .hero::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(255,255,255,0.15); 
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .hero-overlay-box {
     position: relative;
-    background: rgba(255, 255, 255, 0.85); /* Off-white semi-transparent box */
+    background: rgba(255, 255, 255, 0.85);
+    /* Off-white semi-transparent box */
     padding: 50px 80px;
-    border-radius: 60px; /* Wide pill shape */
+    border-radius: 60px;
+    /* Wide pill shape */
     max-width: 900px;
     width: 90%;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .hero-overlay-box h3 {
@@ -176,7 +182,7 @@ nav a:hover {
 .primary-btn {
     background-color: var(--muted-teal);
     color: var(--white);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .primary-btn:hover {
@@ -195,7 +201,7 @@ nav a:hover {
 .card {
     background: var(--white);
     border-radius: 25px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
     padding: 30px 40px;
 }
 
@@ -208,7 +214,7 @@ nav a:hover {
     background: var(--white);
     padding: 30px 0;
     margin-bottom: 50px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
 }
 
 .page-title-banner h2 {
@@ -237,7 +243,8 @@ nav a:hover {
 
 .overview .image-card {
     flex: 1;
-    padding: 10px; /* Slight border effect */
+    padding: 10px;
+    /* Slight border effect */
     display: flex;
 }
 
@@ -323,7 +330,8 @@ nav a:hover {
     border-radius: 20px;
     background-size: cover;
     background-position: center;
-    background-color: #dbe4eb; /* Placeholder color */
+    background-color: #dbe4eb;
+    /* Placeholder color */
 }
 
 .activity-title-card {
@@ -340,13 +348,31 @@ nav a:hover {
 }
 
 /* Layout for the mosaic items */
-.img-1 { grid-column: 1 / 2; grid-row: 1 / 2; }
-.img-2 { grid-column: 1 / 2; grid-row: 2 / 4; }
-.img-3 { grid-column: 3 / 4; grid-row: 1 / 3; }
-.img-4 { grid-column: 2 / 4; grid-row: 3 / 4; }
+.img-1 {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+.img-2 {
+    grid-column: 1 / 2;
+    grid-row: 2 / 4;
+}
+
+.img-3 {
+    grid-column: 3 / 4;
+    grid-row: 1 / 3;
+}
+
+.img-4 {
+    grid-column: 2 / 4;
+    grid-row: 3 / 4;
+}
 
 /* Adding some placeholder gradients to mimic your images */
-.img-1, .img-2, .img-3, .img-4 {
+.img-1,
+.img-2,
+.img-3,
+.img-4 {
     background: linear-gradient(135deg, #e4e9f0 0%, #f7f8fa 50%, #d8e0e8 100%);
 }
 
@@ -433,7 +459,7 @@ footer {
 
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 30px;
 }
 
@@ -448,7 +474,7 @@ footer {
     border-radius: 20px;
     overflow: hidden;
     margin-bottom: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .profile-image-placeholder svg {
@@ -496,7 +522,8 @@ footer {
     font-size: 1rem;
     line-height: 1.6;
     margin-bottom: 30px;
-    color: #dbe4eb; /* Soft light blue/grey for contrast */
+    color: #dbe4eb;
+    /* Soft light blue/grey for contrast */
 }
 
 /* Dark CTA Button */
@@ -509,7 +536,8 @@ footer {
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--white);
-    background-color: rgba(255, 255, 255, 0.1); /* Transparent white overlay */
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Transparent white overlay */
     border: 1px solid rgba(255, 255, 255, 0.3);
     transition: all 0.3s ease;
 }
@@ -546,7 +574,8 @@ footer {
 
 /* Contact Card Layout */
 .contact-card {
-    background-color: rgba(255, 255, 255, 0.95); /* Slight transparency */
+    background-color: rgba(255, 255, 255, 0.95);
+    /* Slight transparency */
     border-radius: 30px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
     display: flex;
@@ -604,7 +633,8 @@ footer {
     color: var(--dark-blue);
     background-color: #fbfcfd;
     transition: border-color 0.3s ease;
-    resize: vertical; /* Allows resizing the textarea vertically */
+    resize: vertical;
+    /* Allows resizing the textarea vertically */
 }
 
 .form-group input:focus,
@@ -615,7 +645,8 @@ footer {
 }
 
 .submit-btn {
-    align-self: center; /* Centers the button under the form */
+    align-self: center;
+    /* Centers the button under the form */
     margin-top: 10px;
     cursor: pointer;
     border: none;
@@ -658,17 +689,20 @@ footer {
     font-size: 0.85rem;
     line-height: 1.5;
     text-align: center;
-    width: 100%; /* Take full width of its column */
+    width: 100%;
+    /* Take full width of its column */
 }
 
 /* Map Container */
 .map-container {
     width: 100%;
-    height: 200px; /* Adjust height as needed */
+    height: 200px;
+    /* Adjust height as needed */
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
-    background-color: #e4e9f0; /* Fallback color */
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+    background-color: #e4e9f0;
+    /* Fallback color */
 }
 
 /* --- Publication Page Styles --- */
@@ -716,7 +750,7 @@ footer {
 }
 
 .control-btn:hover {
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .search-input {
@@ -748,20 +782,22 @@ footer {
 }
 
 .sort-dropdown {
-    display: none; /* Hidden by default, JS will reveal it */
+    display: none;
+    /* Hidden by default, JS will reveal it */
     position: absolute;
     top: 110%;
     right: 0;
     background: var(--white);
     border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     padding: 15px;
     width: 220px;
     z-index: 100;
 }
 
 .sort-dropdown.show {
-    display: block; /* Class toggled by JavaScript */
+    display: block;
+    /* Class toggled by JavaScript */
 }
 
 .sort-group {
@@ -789,8 +825,8 @@ footer {
 
 /* The active styling from your mockup */
 .sort-option.active {
-    background: #f0f4f8; 
-    border-color: #a0b2c6; 
+    background: #f0f4f8;
+    border-color: #a0b2c6;
 }
 
 .sort-divider {
@@ -837,7 +873,7 @@ footer {
     justify-content: space-between;
     align-items: flex-start;
     gap: 24px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
 }
 
 .pub-info {
@@ -887,7 +923,8 @@ footer {
     border: 1px solid #d1d8e0;
     color: var(--dark-blue);
     padding: 6px 20px;
-    border-radius: 20px; /* Pill shape */
+    border-radius: 20px;
+    /* Pill shape */
     text-decoration: none;
     font-size: 0.85rem;
     font-weight: 600;
@@ -936,19 +973,20 @@ footer {
     border-radius: 30px;
     padding: 15px;
     background: var(--white);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .major-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
 }
 
 .major-img {
     width: 100%;
-    aspect-ratio: 4 / 5; /* Creates the tall rectangle shape */
+    aspect-ratio: 4 / 5;
+    /* Creates the tall rectangle shape */
     border-radius: 20px;
 }
 
@@ -970,21 +1008,23 @@ footer {
 
 /* --- Specific Project Grids (Bottom Section) --- */
 .project-grid-section {
-    display: none; /* Hidden by default via CSS */
+    display: none;
+    /* Hidden by default via CSS */
     grid-template-columns: repeat(5, 1fr);
     gap: 20px;
     animation: fadeIn 0.5s ease;
 }
 
 .project-grid-section.active-grid {
-    display: grid; /* Applied via JavaScript */
+    display: grid;
+    /* Applied via JavaScript */
 }
 
 .project-card {
     background: var(--white);
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
     cursor: pointer;
@@ -997,7 +1037,8 @@ footer {
 
 .proj-img {
     width: 100%;
-    aspect-ratio: 1 / 1; /* Perfect square */
+    aspect-ratio: 1 / 1;
+    /* Perfect square */
 }
 
 .proj-label {
@@ -1010,8 +1051,15 @@ footer {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* --- Responsive Layout --- */

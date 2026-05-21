@@ -3,29 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Breathe Laboratory - Engineering the Rhythm of Life. Research lab at DTETI, Faculty of Engineering, Universitas Gadjah Mada.">
     <title>Breathe Laboratory</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <header id="site-header"></header>
 
     <main>
-        <section class="welcome">
-            <h2><i>Welcome to Breathe Laboratory</i></h2>
-        </section>
-
-        <section class="hero">
-            <div class="hero-overlay-box">
-                <h3>Engineering, the Rhythm of Life</h3>
-                <p><i>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer porta purus id semdictum vestibulum.</i></p>
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div class="hero-bg-glow"></div>
+            <div class="hero-content">
+                <p class="hero-tag">Welcome to</p>
+                <h1 class="hero-title">Breathe <span class="gradient-text">Laboratory</span></h1>
+                <p class="hero-subtitle">Engineering, the Rhythm of Life</p>
+                <p class="hero-desc">Advancing biomedical, electrical, and information engineering research at the Department of Electrical and Information Engineering, Universitas Gadjah Mada.</p>
+                <div class="hero-actions">
+                    <a href="publication.html" class="btn btn-primary" id="cta-publications">View Publications</a>
+                    <a href="research.html" class="btn btn-outline" id="cta-research">Explore Research</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-orb orb-1"></div>
+                <div class="hero-orb orb-2"></div>
+                <div class="hero-orb orb-3"></div>
+                <svg class="hero-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#6366f1;stop-opacity:0.6" />
+                            <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:0.6" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="200" cy="200" r="150" fill="none" stroke="url(#grad1)" stroke-width="1" opacity="0.3">
+                        <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="360 200 200" dur="20s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="200" cy="200" r="120" fill="none" stroke="url(#grad1)" stroke-width="0.5" opacity="0.2" stroke-dasharray="8 4">
+                        <animateTransform attributeName="transform" type="rotate" from="360 200 200" to="0 200 200" dur="15s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="200" cy="200" r="90" fill="none" stroke="url(#grad1)" stroke-width="1" opacity="0.15">
+                        <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="360 200 200" dur="25s" repeatCount="indefinite"/>
+                    </circle>
+                    <!-- Pulse dot -->
+                    <circle cx="200" cy="50" r="4" fill="#6366f1" opacity="0.8">
+                        <animate attributeName="r" values="3;6;3" dur="2s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+                        <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="360 200 200" dur="20s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="320" cy="200" r="3" fill="#06b6d4" opacity="0.7">
+                        <animate attributeName="r" values="2;5;2" dur="3s" repeatCount="indefinite"/>
+                        <animateTransform attributeName="transform" type="rotate" from="360 200 200" to="0 200 200" dur="15s" repeatCount="indefinite"/>
+                    </circle>
+                </svg>
             </div>
         </section>
 
-        <section class="cta-buttons">
-            <a href="publication.html" class="btn primary-btn">View Latest Publications</a>
-            <a href="research.html" class="btn primary-btn">Explore Research Areas</a>
+        <!-- Stats Section -->
+        <section class="stats-section" id="stats">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card glass-card">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Research Fields</span>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <span class="stat-number">10+</span>
+                        <span class="stat-label">Researchers</span>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <span class="stat-number">20+</span>
+                        <span class="stat-label">Publications</span>
+                    </div>
+                    <div class="stat-card glass-card">
+                        <span class="stat-number">4</span>
+                        <span class="stat-label">Lab Facilities</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Research Highlights -->
+        <section class="highlights-section" id="highlights">
+            <div class="container">
+                <h2 class="section-heading">Our Research <span class="gradient-text">Fields</span></h2>
+                <p class="section-subheading">Pushing boundaries across three core engineering disciplines</p>
+                <div class="highlights-grid">
+                    <a href="research.html" class="highlight-card glass-card" id="highlight-ee">
+                        <div class="highlight-icon">⚡</div>
+                        <h3>Electrical Engineering</h3>
+                        <p>Power systems, high voltage engineering, and signal processing research.</p>
+                        <span class="highlight-arrow">→</span>
+                    </a>
+                    <a href="research.html" class="highlight-card glass-card" id="highlight-ie">
+                        <div class="highlight-icon">💻</div>
+                        <h3>Information Engineering</h3>
+                        <p>Computer networks, AI/ML applications, and information systems.</p>
+                        <span class="highlight-arrow">→</span>
+                    </a>
+                    <a href="research.html" class="highlight-card glass-card" id="highlight-bme">
+                        <div class="highlight-icon">🧬</div>
+                        <h3>Biomedical Engineering</h3>
+                        <p>Medical devices, biosignal processing, and health technology innovation.</p>
+                        <span class="highlight-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section" id="cta">
+            <div class="container">
+                <div class="cta-card">
+                    <h2>Build Impactful Technologies <span class="gradient-text">With Us</span></h2>
+                    <p>From deep learning models to hardware prototypes — join a collaborative environment designed for creators and problem solvers.</p>
+                    <a href="contact.html" class="btn btn-primary" id="cta-contact">Get In Touch</a>
+                </div>
+            </div>
         </section>
     </main>
 
