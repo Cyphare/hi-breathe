@@ -392,12 +392,26 @@ footer {
 
 .footer-content {
     display: flex;
+    align-items: stretch;
     justify-content: center;
-    gap: 100px;
+    gap: 40px;
     max-width: 800px;
     margin: 0 auto 40px;
     text-align: left;
 }
+
+/* 
+.flex-container::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  
+  /* Customize the look of your line here
+  width: 1px;
+  height: 60%;
+  background-color: #0E3C56;
+} */
 
 .footer-links {
     display: flex;
@@ -409,6 +423,12 @@ footer {
     color: var(--dark-blue);
     text-decoration: none;
     font-weight: 600;
+}
+
+.footer-location {
+    flex: 2;
+    border-left: 2px solid #0E3C56;
+    padding-left: 5%;
 }
 
 .footer-location p {
