@@ -426,7 +426,7 @@ footer {
 
 .footer-location {
     flex: 2;
-    border-left: 2px solid #0E3C56;
+    border-left: 1px solid #0E3C56;
     padding-left: 5%;
 }
 
@@ -1299,7 +1299,7 @@ footer {
     .footer-location {
         border-left: none;
         padding-left: 0;
-        border-top: 2px solid #0E3C56;
+        border-top: 1px solid #0E3C56;
         padding-top: 20px;
     }
 }
