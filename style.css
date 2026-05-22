@@ -1295,6 +1295,13 @@ footer {
     .footer-links {
         align-items: center;
     }
+ 
+    .footer-location {
+        border-left: none;
+        padding-left: 0;
+        border-top: 2px solid #0E3C56;
+        padding-top: 20px;
+    }
 }
 
 @media (max-width: 480px) {
