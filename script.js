@@ -117,8 +117,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            if (event.defaultPrevented || hasScrollableParent(event.target)) {
+                return;
+            }
+
             refreshMaxScrollY();
-            if (event.defaultPrevented || maxScrollY <= 0 || hasScrollableParent(event.target)) {
+            if (maxScrollY <= 0) {
                 return;
             }
 
