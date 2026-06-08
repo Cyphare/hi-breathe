@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let maxScrollY = getMaxScrollY();
     const refreshMaxScrollY = () => {
         maxScrollY = getMaxScrollY();
-        return maxScrollY;
     };
     const clampScrollY = (value) => Math.min(maxScrollY, Math.max(0, value));
 
