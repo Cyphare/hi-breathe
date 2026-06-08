@@ -9,7 +9,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    const canUseGsapInertialScroll = hasGsapScroll && !prefersReducedMotion;
+    const isInertialScrollDisabled = () => {
+        if (document.documentElement?.dataset.disableInertialScroll === 'true') {
+            return true;
+        }
+
+        try {
+            return window.localStorage?.getItem('disableInertialScroll') === 'true';
+        } catch (error) {
+            return false;
+        }
+    };
+
+    const canUseGsapInertialScroll = hasGsapScroll && !prefersReducedMotion && !isInertialScrollDisabled();
     let wheelScrollTween = null;
     let setInertialScrollTarget = null;
 
@@ -22,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        let targetScrollY = clampScrollY(window.pageYOffset || 0);
+        let targetScrollY = clampScrollY(window.scrollY || 0);
         setInertialScrollTarget = (value) => {
             targetScrollY = clampScrollY(value);
         };
@@ -48,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const syncTargetWithWindowScroll = () => {
             if (!wheelScrollTween || !wheelScrollTween.isActive()) {
-                targetScrollY = clampScrollY(window.pageYOffset || 0);
+                targetScrollY = clampScrollY(window.scrollY || 0);
             }
         };
 
