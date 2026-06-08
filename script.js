@@ -8,6 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
         window.gsap.registerPlugin(window.ScrollToPlugin);
     }
 
+    let headerOffset = siteHeader?.offsetHeight || 0;
+    const updateHeaderOffset = () => {
+        headerOffset = siteHeader?.offsetHeight || 0;
+    };
+
+    window.addEventListener('resize', updateHeaderOffset);
+
     const normalizePathname = (pathname) => {
         const normalized = pathname.replace(/\/index\.html$/, '/').replace(/\/+$/, '');
         return normalized === '' ? '/' : normalized;
@@ -18,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return 0;
         }
 
-        return Math.max(0, element.getBoundingClientRect().top + window.pageYOffset - (siteHeader?.offsetHeight || 0));
+        return Math.max(0, element.getBoundingClientRect().top + window.pageYOffset - headerOffset);
     };
 
     const smoothScrollToY = (targetY) => {
@@ -136,9 +143,18 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     }
 
-    document.querySelectorAll('a[href*="#"]').forEach((link) => {
+    document.querySelectorAll('a[href]').forEach((link) => {
+        const href = link.getAttribute('href');
+        if (!href || !href.includes('#')) {
+            return;
+        }
+
+        const targetUrl = new URL(link.href, window.location.href);
+        if (targetUrl.origin !== window.location.origin) {
+            return;
+        }
+
         link.addEventListener('click', (event) => {
-            const targetUrl = new URL(link.href, window.location.href);
             const isSamePage = normalizePathname(targetUrl.pathname) === normalizePathname(window.location.pathname);
 
             if (!isSamePage || !targetUrl.hash) {
@@ -154,9 +170,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (window.location.hash) {
-        requestAnimationFrame(() => {
+        window.addEventListener('load', () => {
             smoothScrollToHash(window.location.hash, false);
-        });
+        }, { once: true });
     }
 
     const contactForm = document.getElementById('contactForm');
