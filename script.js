@@ -149,7 +149,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const targetUrl = new URL(link.href, window.location.href);
+        let targetUrl;
+        try {
+            targetUrl = new URL(link.href, window.location.href);
+        } catch (error) {
+            return;
+        }
+
         if (targetUrl.origin !== window.location.origin) {
             return;
         }
@@ -170,9 +176,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (window.location.hash) {
-        window.addEventListener('load', () => {
+        setTimeout(() => {
             smoothScrollToHash(window.location.hash, false);
-        }, { once: true });
+        }, 0);
     }
 
     const contactForm = document.getElementById('contactForm');
