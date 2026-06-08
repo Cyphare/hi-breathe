@@ -27,6 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const getMaxScrollY = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
     let maxScrollY = getMaxScrollY();
+    const refreshMaxScrollY = () => {
+        maxScrollY = getMaxScrollY();
+        return maxScrollY;
+    };
     const clampScrollY = (value) => Math.min(maxScrollY, Math.max(0, value));
 
     const setupInertialWheelScroll = () => {
@@ -98,14 +102,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             resizeAnimationFrame = window.requestAnimationFrame(() => {
-                maxScrollY = getMaxScrollY();
+                refreshMaxScrollY();
                 targetScrollY = clampScrollY(targetScrollY);
                 resizeAnimationFrame = null;
             });
         }, { passive: true });
 
         window.addEventListener('load', () => {
-            maxScrollY = getMaxScrollY();
+            refreshMaxScrollY();
             targetScrollY = clampScrollY(targetScrollY);
         }, { once: true });
 
@@ -114,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            refreshMaxScrollY();
             if (event.defaultPrevented || maxScrollY <= 0 || hasScrollableParent(event.target)) {
                 return;
             }
@@ -461,6 +466,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             dynamicBanner.style.display = 'block';
             gridsContainer.style.display = 'block';
+            refreshMaxScrollY();
             smoothScrollToElement(dynamicBanner);
         });
     });
