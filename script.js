@@ -8,6 +8,128 @@ document.addEventListener('DOMContentLoaded', () => {
         window.gsap.registerPlugin(window.ScrollToPlugin);
     }
 
+    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const isInertialScrollDisabled = () => {
+        if (document.documentElement?.dataset.disableInertialScroll === 'true') {
+            return true;
+        }
+
+        try {
+            return window.localStorage?.getItem('disableInertialScroll') === 'true';
+        } catch (error) {
+            return false;
+        }
+    };
+
+    const canUseGsapInertialScroll = hasGsapScroll && !prefersReducedMotion && !isInertialScrollDisabled();
+    let wheelScrollTween = null;
+    let setInertialScrollTarget = null;
+
+    const getMaxScrollY = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    let maxScrollY = getMaxScrollY();
+    const clampScrollY = (value) => Math.min(maxScrollY, Math.max(0, value));
+
+    const setupInertialWheelScroll = () => {
+        if (!canUseGsapInertialScroll) {
+            return;
+        }
+
+        let targetScrollY = clampScrollY(window.scrollY || 0);
+        setInertialScrollTarget = (value) => {
+            targetScrollY = clampScrollY(value);
+        };
+
+        const restartWheelTween = () => {
+            if (!wheelScrollTween) {
+                wheelScrollTween = window.gsap.to(window, {
+                    duration: 1,
+                    ease: 'power3.out',
+                    paused: true,
+                    scrollTo: {
+                        y: targetScrollY,
+                        autoKill: false,
+                    },
+                });
+            } else {
+                wheelScrollTween.vars.scrollTo.y = targetScrollY;
+                wheelScrollTween.invalidate();
+            }
+
+            wheelScrollTween.restart();
+        };
+
+        const syncTargetWithWindowScroll = () => {
+            if (!wheelScrollTween || !wheelScrollTween.isActive()) {
+                targetScrollY = clampScrollY(window.scrollY || 0);
+            }
+        };
+
+        const hasScrollableParent = (element) => {
+            let currentElement = element instanceof Element ? element : null;
+
+            while (currentElement && currentElement !== document.body) {
+                const style = window.getComputedStyle(currentElement);
+                const canScrollY = /(auto|scroll|overlay)/.test(style.overflowY);
+                if (canScrollY && currentElement.scrollHeight > currentElement.clientHeight) {
+                    return true;
+                }
+
+                currentElement = currentElement.parentElement;
+            }
+
+            return false;
+        };
+
+        let scrollSyncFrame = null;
+        window.addEventListener('scroll', () => {
+            if (scrollSyncFrame) {
+                return;
+            }
+
+            scrollSyncFrame = window.requestAnimationFrame(() => {
+                syncTargetWithWindowScroll();
+                scrollSyncFrame = null;
+            });
+        }, { passive: true });
+        let resizeAnimationFrame = null;
+        window.addEventListener('resize', () => {
+            if (resizeAnimationFrame) {
+                window.cancelAnimationFrame(resizeAnimationFrame);
+            }
+
+            resizeAnimationFrame = window.requestAnimationFrame(() => {
+                maxScrollY = getMaxScrollY();
+                targetScrollY = clampScrollY(targetScrollY);
+                resizeAnimationFrame = null;
+            });
+        }, { passive: true });
+
+        window.addEventListener('load', () => {
+            maxScrollY = getMaxScrollY();
+            targetScrollY = clampScrollY(targetScrollY);
+        }, { once: true });
+
+        window.addEventListener('wheel', (event) => {
+            if (event.ctrlKey || event.metaKey) {
+                return;
+            }
+
+            if (event.defaultPrevented || maxScrollY <= 0 || hasScrollableParent(event.target)) {
+                return;
+            }
+
+            if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+                return;
+            }
+
+            event.preventDefault();
+            targetScrollY = clampScrollY(targetScrollY + event.deltaY);
+            restartWheelTween();
+        }, { passive: false });
+    };
+
+    setupInertialWheelScroll();
+
     let headerOffset = siteHeader?.offsetHeight || 0;
     const updateHeaderOffset = () => {
         headerOffset = siteHeader?.offsetHeight || 0;
@@ -33,6 +155,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const scrollTop = Math.max(0, targetY);
 
         if (hasGsapScroll) {
+            if (wheelScrollTween) {
+                wheelScrollTween.kill();
+                wheelScrollTween = null;
+            }
+
+            if (setInertialScrollTarget) {
+                setInertialScrollTarget(scrollTop);
+            }
+
             window.gsap.to(window, {
                 duration: 0.8,
                 ease: 'power2.out',
