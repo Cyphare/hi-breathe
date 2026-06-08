@@ -77,7 +77,11 @@ document.addEventListener('DOMContentLoaded', () => {
         smoothScrollToElement(target);
 
         if (updateHistory) {
-            history.pushState(null, '', hash);
+            if (window.location.hash === hash) {
+                history.replaceState(null, '', hash);
+            } else {
+                history.pushState(null, '', hash);
+            }
         }
 
         return true;
@@ -175,11 +179,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    if (window.location.hash) {
+    const handleInitialHashScroll = () => {
         requestAnimationFrame(() => {
             updateHeaderOffset();
             smoothScrollToHash(window.location.hash, false);
         });
+    };
+
+    if (window.location.hash) {
+        if (document.readyState === 'complete') {
+            handleInitialHashScroll();
+        } else {
+            window.addEventListener('load', handleInitialHashScroll, { once: true });
+        }
     }
 
     const contactForm = document.getElementById('contactForm');
