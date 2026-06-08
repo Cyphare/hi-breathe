@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 targetScrollY = clampScrollY(targetScrollY);
                 resizeAnimationFrame = null;
             });
-        });
+        }, { passive: true });
 
         window.addEventListener('load', () => {
             maxScrollY = getMaxScrollY();
@@ -157,6 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (hasGsapScroll) {
             if (wheelScrollTween) {
                 wheelScrollTween.kill();
+                wheelScrollTween = null;
             }
 
             if (setInertialScrollTarget) {
