@@ -52,7 +52,33 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        window.addEventListener('scroll', syncTargetWithWindowScroll, { passive: true });
+        const hasScrollableParent = (element) => {
+            let currentElement = element instanceof Element ? element : null;
+
+            while (currentElement && currentElement !== document.body) {
+                const style = window.getComputedStyle(currentElement);
+                const canScrollY = /(auto|scroll|overlay)/.test(style.overflowY);
+                if (canScrollY && currentElement.scrollHeight > currentElement.clientHeight) {
+                    return true;
+                }
+
+                currentElement = currentElement.parentElement;
+            }
+
+            return false;
+        };
+
+        let scrollSyncFrame = null;
+        window.addEventListener('scroll', () => {
+            if (scrollSyncFrame) {
+                return;
+            }
+
+            scrollSyncFrame = window.requestAnimationFrame(() => {
+                syncTargetWithWindowScroll();
+                scrollSyncFrame = null;
+            });
+        }, { passive: true });
         let resizeAnimationFrame = null;
         window.addEventListener('resize', () => {
             if (resizeAnimationFrame) {
@@ -73,6 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.addEventListener('wheel', (event) => {
             if (event.ctrlKey || event.metaKey) {
+                return;
+            }
+
+            if (event.defaultPrevented || maxScrollY <= 0 || hasScrollableParent(event.target)) {
                 return;
             }
 
