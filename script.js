@@ -33,12 +33,20 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         window.addEventListener('scroll', syncTargetWithWindowScroll, { passive: true });
+        let resizeAnimationFrame = null;
         window.addEventListener('resize', () => {
-            targetScrollY = clampScrollY(targetScrollY);
+            if (resizeAnimationFrame) {
+                window.cancelAnimationFrame(resizeAnimationFrame);
+            }
+
+            resizeAnimationFrame = window.requestAnimationFrame(() => {
+                targetScrollY = clampScrollY(targetScrollY);
+                resizeAnimationFrame = null;
+            });
         });
 
         window.addEventListener('wheel', (event) => {
-            if (event.ctrlKey) {
+            if (event.ctrlKey || event.metaKey) {
                 return;
             }
 
@@ -52,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
             wheelScrollTween = window.gsap.to(window, {
                 duration: 1,
                 ease: 'power3.out',
-                overwrite: true,
                 scrollTo: {
                     y: targetScrollY,
                     autoKill: false,
