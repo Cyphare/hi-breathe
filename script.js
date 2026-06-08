@@ -8,6 +8,61 @@ document.addEventListener('DOMContentLoaded', () => {
         window.gsap.registerPlugin(window.ScrollToPlugin);
     }
 
+    const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const canUseGsapInertialScroll = hasGsapScroll && !prefersReducedMotion;
+    let wheelScrollTween = null;
+    let setInertialScrollTarget = null;
+
+    const getMaxScrollY = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    const clampScrollY = (value) => Math.min(getMaxScrollY(), Math.max(0, value));
+
+    const setupInertialWheelScroll = () => {
+        if (!canUseGsapInertialScroll) {
+            return;
+        }
+
+        let targetScrollY = clampScrollY(window.pageYOffset || 0);
+        setInertialScrollTarget = (value) => {
+            targetScrollY = clampScrollY(value);
+        };
+
+        const syncTargetWithWindowScroll = () => {
+            if (!wheelScrollTween || !wheelScrollTween.isActive()) {
+                targetScrollY = clampScrollY(window.pageYOffset || 0);
+            }
+        };
+
+        window.addEventListener('scroll', syncTargetWithWindowScroll, { passive: true });
+        window.addEventListener('resize', () => {
+            targetScrollY = clampScrollY(targetScrollY);
+        });
+
+        window.addEventListener('wheel', (event) => {
+            if (event.ctrlKey) {
+                return;
+            }
+
+            event.preventDefault();
+            targetScrollY = clampScrollY(targetScrollY + event.deltaY);
+
+            if (wheelScrollTween) {
+                wheelScrollTween.kill();
+            }
+
+            wheelScrollTween = window.gsap.to(window, {
+                duration: 1,
+                ease: 'power3.out',
+                overwrite: true,
+                scrollTo: {
+                    y: targetScrollY,
+                    autoKill: false,
+                },
+            });
+        }, { passive: false });
+    };
+
+    setupInertialWheelScroll();
+
     let headerOffset = siteHeader?.offsetHeight || 0;
     const updateHeaderOffset = () => {
         headerOffset = siteHeader?.offsetHeight || 0;
@@ -33,6 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const scrollTop = Math.max(0, targetY);
 
         if (hasGsapScroll) {
+            if (wheelScrollTween) {
+                wheelScrollTween.kill();
+            }
+
+            if (setInertialScrollTarget) {
+                setInertialScrollTarget(scrollTop);
+            }
+
             window.gsap.to(window, {
                 duration: 0.8,
                 ease: 'power2.out',
