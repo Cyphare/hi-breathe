@@ -160,13 +160,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const isSamePage = normalizePathname(targetUrl.pathname) === normalizePathname(window.location.pathname);
+        if (!isSamePage || !targetUrl.hash) {
+            return;
+        }
+
         link.addEventListener('click', (event) => {
-            const isSamePage = normalizePathname(targetUrl.pathname) === normalizePathname(window.location.pathname);
-
-            if (!isSamePage || !targetUrl.hash) {
-                return;
-            }
-
             if (!smoothScrollToHash(targetUrl.hash)) {
                 return;
             }
@@ -176,9 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (window.location.hash) {
-        setTimeout(() => {
-            smoothScrollToHash(window.location.hash, false);
-        }, 0);
+        smoothScrollToHash(window.location.hash, false);
     }
 
     const contactForm = document.getElementById('contactForm');
