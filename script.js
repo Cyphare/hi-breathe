@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const normalized = pathname.replace(/\/index\.html$/, '/').replace(/\/+$/, '');
         return normalized === '' ? '/' : normalized;
     };
+    const currentNormalizedPath = normalizePathname(window.location.pathname);
 
     const getScrollTargetY = (element) => {
         if (!element) {
@@ -160,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const isSamePage = normalizePathname(targetUrl.pathname) === normalizePathname(window.location.pathname);
+        const isSamePage = normalizePathname(targetUrl.pathname) === currentNormalizedPath;
         if (!isSamePage || !targetUrl.hash) {
             return;
         }
@@ -175,7 +176,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (window.location.hash) {
-        smoothScrollToHash(window.location.hash, false);
+        requestAnimationFrame(() => {
+            updateHeaderOffset();
+            smoothScrollToHash(window.location.hash, false);
+        });
     }
 
     const contactForm = document.getElementById('contactForm');
