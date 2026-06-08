@@ -121,7 +121,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            refreshMaxScrollY();
             if (maxScrollY <= 0) {
                 return;
             }
