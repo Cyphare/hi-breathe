@@ -2,6 +2,78 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     const siteHeader = document.getElementById('site-header');
     const siteFooter = document.getElementById('site-footer');
+    const hasGsapScroll = typeof window.gsap !== 'undefined' && typeof window.ScrollToPlugin !== 'undefined';
+
+    if (hasGsapScroll) {
+        window.gsap.registerPlugin(window.ScrollToPlugin);
+    }
+
+    const normalizePathname = (pathname) => {
+        const normalized = pathname.replace(/\/index\.html$/, '/').replace(/\/+$/, '');
+        return normalized === '' ? '/' : normalized;
+    };
+
+    const getScrollTargetY = (element) => {
+        if (!element) {
+            return 0;
+        }
+
+        return Math.max(0, element.getBoundingClientRect().top + window.pageYOffset - (siteHeader?.offsetHeight || 0));
+    };
+
+    const smoothScrollToY = (targetY) => {
+        const scrollTop = Math.max(0, targetY);
+
+        if (hasGsapScroll) {
+            window.gsap.to(window, {
+                duration: 0.8,
+                ease: 'power2.out',
+                scrollTo: {
+                    y: scrollTop,
+                    autoKill: true,
+                },
+            });
+            return;
+        }
+
+        window.scrollTo({
+            top: scrollTop,
+            behavior: 'smooth',
+        });
+    };
+
+    const smoothScrollToElement = (element) => {
+        if (!element) {
+            return;
+        }
+
+        smoothScrollToY(getScrollTargetY(element));
+    };
+
+    const smoothScrollToHash = (hash, updateHistory = true) => {
+        if (!hash || hash === '#') {
+            return false;
+        }
+
+        let target;
+        try {
+            target = document.querySelector(hash);
+        } catch (error) {
+            return false;
+        }
+
+        if (!target) {
+            return false;
+        }
+
+        smoothScrollToElement(target);
+
+        if (updateHistory) {
+            history.pushState(null, '', hash);
+        }
+
+        return true;
+    };
 
     const headerNavItems = [
         { href: 'research.html', label: 'Research +' },
@@ -62,6 +134,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p>&copy; 2026 Breathe Laboratory, DTETI FT UGM. All rights reserved.</p>
             </div>
         `;
+    }
+
+    document.querySelectorAll('a[href*="#"]').forEach((link) => {
+        link.addEventListener('click', (event) => {
+            const targetUrl = new URL(link.href, window.location.href);
+            const isSamePage = normalizePathname(targetUrl.pathname) === normalizePathname(window.location.pathname);
+
+            if (!isSamePage || !targetUrl.hash) {
+                return;
+            }
+
+            if (!smoothScrollToHash(targetUrl.hash)) {
+                return;
+            }
+
+            event.preventDefault();
+        });
+    });
+
+    if (window.location.hash) {
+        requestAnimationFrame(() => {
+            smoothScrollToHash(window.location.hash, false);
+        });
     }
 
     const contactForm = document.getElementById('contactForm');
@@ -200,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             dynamicBanner.style.display = 'block';
             gridsContainer.style.display = 'block';
-            dynamicBanner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            smoothScrollToElement(dynamicBanner);
         });
     });
 });
