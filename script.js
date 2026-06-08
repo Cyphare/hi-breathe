@@ -14,7 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let setInertialScrollTarget = null;
 
     const getMaxScrollY = () => Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-    const clampScrollY = (value) => Math.min(getMaxScrollY(), Math.max(0, value));
+    let maxScrollY = getMaxScrollY();
+    const clampScrollY = (value) => Math.min(maxScrollY, Math.max(0, value));
 
     const setupInertialWheelScroll = () => {
         if (!canUseGsapInertialScroll) {
@@ -24,6 +25,25 @@ document.addEventListener('DOMContentLoaded', () => {
         let targetScrollY = clampScrollY(window.pageYOffset || 0);
         setInertialScrollTarget = (value) => {
             targetScrollY = clampScrollY(value);
+        };
+
+        const restartWheelTween = () => {
+            if (!wheelScrollTween) {
+                wheelScrollTween = window.gsap.to(window, {
+                    duration: 1,
+                    ease: 'power3.out',
+                    paused: true,
+                    scrollTo: {
+                        y: targetScrollY,
+                        autoKill: false,
+                    },
+                });
+            } else {
+                wheelScrollTween.vars.scrollTo.y = targetScrollY;
+                wheelScrollTween.invalidate();
+            }
+
+            wheelScrollTween.restart();
         };
 
         const syncTargetWithWindowScroll = () => {
@@ -40,31 +60,29 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             resizeAnimationFrame = window.requestAnimationFrame(() => {
+                maxScrollY = getMaxScrollY();
                 targetScrollY = clampScrollY(targetScrollY);
                 resizeAnimationFrame = null;
             });
         });
+
+        window.addEventListener('load', () => {
+            maxScrollY = getMaxScrollY();
+            targetScrollY = clampScrollY(targetScrollY);
+        }, { once: true });
 
         window.addEventListener('wheel', (event) => {
             if (event.ctrlKey || event.metaKey) {
                 return;
             }
 
-            event.preventDefault();
-            targetScrollY = clampScrollY(targetScrollY + event.deltaY);
-
-            if (wheelScrollTween) {
-                wheelScrollTween.kill();
+            if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+                return;
             }
 
-            wheelScrollTween = window.gsap.to(window, {
-                duration: 1,
-                ease: 'power3.out',
-                scrollTo: {
-                    y: targetScrollY,
-                    autoKill: false,
-                },
-            });
+            event.preventDefault();
+            targetScrollY = clampScrollY(targetScrollY + event.deltaY);
+            restartWheelTween();
         }, { passive: false });
     };
 
