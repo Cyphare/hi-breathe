@@ -435,6 +435,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    let currentActiveTarget = null;
+
+    const recalcMaxScrollY = () => {
+        maxScrollY = getMaxScrollY();
+        if (setInertialScrollTarget) {
+            setInertialScrollTarget(Math.min(window.scrollY, maxScrollY));
+        }
+    };
+
     majorCards.forEach((card) => {
         card.addEventListener('click', () => {
             const targetId = card.getAttribute('data-target');
@@ -444,6 +453,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            // If clicking the same card that's already open, collapse it
+            if (currentActiveTarget === targetId) {
+                projectGrids.forEach((grid) => {
+                    grid.classList.remove('active-grid');
+                    grid.style.display = 'none';
+                    grid.hidden = true;
+                });
+
+                dynamicBanner.style.display = 'none';
+                gridsContainer.style.display = 'none';
+                currentActiveTarget = null;
+
+                // Recalculate scrollable area after collapsing
+                requestAnimationFrame(recalcMaxScrollY);
+                return;
+            }
+
+            // Otherwise, open the clicked section
             dynamicTitle.textContent = targetTitle;
 
             projectGrids.forEach((grid) => {
@@ -461,7 +488,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             dynamicBanner.style.display = 'block';
             gridsContainer.style.display = 'block';
-            smoothScrollToElement(dynamicBanner);
+            currentActiveTarget = targetId;
+
+            // Recalculate scrollable area after expanding, then scroll
+            requestAnimationFrame(() => {
+                recalcMaxScrollY();
+                smoothScrollToElement(dynamicBanner);
+            });
         });
     });
 });
