@@ -266,7 +266,7 @@ nav a:hover {
 }
 
 .vm-block h3 {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-size: 1.8rem;
     margin-bottom: 15px;
     color: var(--dark-blue);
@@ -288,7 +288,7 @@ nav a:hover {
 }
 
 .section-header h3 {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-size: 1.8rem;
     color: var(--dark-blue);
     margin-bottom: 10px;
@@ -341,7 +341,7 @@ nav a:hover {
 }
 
 .activity-title-card h3 {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-size: 1.6rem;
     color: var(--muted-teal);
 }
@@ -517,6 +517,42 @@ footer {
 .profile-email {
     font-size: 0.85rem;
     color: var(--dark-blue);
+    font-weight: 600;
+}
+
+/* --- Student List --- */
+.student-list {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.student-list-item {
+    border-bottom: 1px solid #0E3C56;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.student-list-item:first-child {
+    border-top: 1px solid #0E3C56;
+}
+
+.student-list-item h4 {
+    font-size: 1.1rem;
+    color: var(--dark-blue);
+    margin-bottom: 4px;
+}
+
+.student-list-item .profile-info {
+    font-size: 0.95rem;
+    color: var(--text-grey);
+    margin-bottom: 6px;
+}
+
+.student-list-item .profile-email {
+    font-size: 0.85rem;
+    color: var(--muted-teal);
     font-weight: 600;
 }
 
@@ -926,7 +962,7 @@ footer {
 }
 
 .pub-year {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     color: var(--text-grey);
     font-size: 1.1rem;
     margin-bottom: 14px;
