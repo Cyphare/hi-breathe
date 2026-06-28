@@ -220,17 +220,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const headerNavItems = [
         { href: 'research.html', label: 'Research +' },
-        { href: 'team.html', label: 'Team +' },
         { href: 'publication.html', label: 'Publication +' },
+        { href: 'team.html', label: 'Team +' },
         { href: 'about.html', label: 'About +' },
         { href: 'contact.html', label: 'Contact +' },
     ];
 
     const footerLinks = [
         { href: 'research.html', label: 'Research' },
-        { href: 'about.html', label: 'About' },
         { href: 'publication.html', label: 'Publication' },
         { href: 'team.html', label: 'Team' },
+        { href: 'about.html', label: 'About' },
         { href: 'contact.html', label: 'Contact' },
     ];
 
