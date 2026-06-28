@@ -423,8 +423,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const dynamicTitle = document.getElementById('dynamic-title');
     const gridsContainer = document.getElementById('project-grids-container');
     const projectGrids = document.querySelectorAll('.project-grid-section');
+    const dropdownWrapper = document.getElementById('research-dropdown-wrapper');
 
-    if (majorCards.length === 0 || !dynamicBanner || !dynamicTitle || !gridsContainer) {
+    if (majorCards.length === 0 || !dynamicBanner || !dynamicTitle || !gridsContainer || !dropdownWrapper) {
         return;
     }
 
@@ -436,6 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let currentActiveTarget = null;
+    let isAnimating = false;
 
     const recalcMaxScrollY = () => {
         maxScrollY = getMaxScrollY();
@@ -444,8 +446,58 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const expandDropdown = (callback) => {
+        // Measure the natural height of the content
+        dropdownWrapper.style.maxHeight = 'none';
+        const fullHeight = dropdownWrapper.scrollHeight;
+        dropdownWrapper.style.maxHeight = '0px';
+
+        // Force reflow so the browser registers the starting value
+        void dropdownWrapper.offsetHeight;
+
+        // Set max-height to the measured value and add expanded class
+        dropdownWrapper.style.maxHeight = fullHeight + 'px';
+        dropdownWrapper.classList.add('expanded');
+        dropdownWrapper.classList.remove('collapsing');
+
+        const onEnd = () => {
+            dropdownWrapper.removeEventListener('transitionend', onEnd);
+            // Remove fixed max-height so it can adapt to content changes
+            dropdownWrapper.style.maxHeight = 'none';
+            isAnimating = false;
+            recalcMaxScrollY();
+            if (callback) callback();
+        };
+        dropdownWrapper.addEventListener('transitionend', onEnd);
+    };
+
+    const collapseDropdown = (callback) => {
+        // Lock the current height first
+        const currentHeight = dropdownWrapper.scrollHeight;
+        dropdownWrapper.style.maxHeight = currentHeight + 'px';
+        dropdownWrapper.classList.add('collapsing');
+        dropdownWrapper.classList.remove('expanded');
+
+        // Force reflow
+        void dropdownWrapper.offsetHeight;
+
+        // Animate to 0
+        dropdownWrapper.style.maxHeight = '0px';
+
+        const onEnd = () => {
+            dropdownWrapper.removeEventListener('transitionend', onEnd);
+            dropdownWrapper.classList.remove('collapsing');
+            isAnimating = false;
+            recalcMaxScrollY();
+            if (callback) callback();
+        };
+        dropdownWrapper.addEventListener('transitionend', onEnd);
+    };
+
     majorCards.forEach((card) => {
         card.addEventListener('click', () => {
+            if (isAnimating) return;
+
             const targetId = card.getAttribute('data-target');
             const targetTitle = card.getAttribute('data-title');
 
@@ -455,22 +507,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // If clicking the same card that's already open, collapse it
             if (currentActiveTarget === targetId) {
-                projectGrids.forEach((grid) => {
-                    grid.classList.remove('active-grid');
-                    grid.style.display = 'none';
-                    grid.hidden = true;
+                isAnimating = true;
+
+                collapseDropdown(() => {
+                    projectGrids.forEach((grid) => {
+                        grid.classList.remove('active-grid');
+                        grid.style.display = 'none';
+                        grid.hidden = true;
+                    });
+                    currentActiveTarget = null;
                 });
-
-                dynamicBanner.style.display = 'none';
-                gridsContainer.style.display = 'none';
-                currentActiveTarget = null;
-
-                // Recalculate scrollable area after collapsing
-                requestAnimationFrame(recalcMaxScrollY);
                 return;
             }
 
-            // Otherwise, open the clicked section
+            // If another section is already open, collapse first then expand
+            if (currentActiveTarget !== null) {
+                isAnimating = true;
+
+                collapseDropdown(() => {
+                    projectGrids.forEach((grid) => {
+                        grid.classList.remove('active-grid');
+                        grid.style.display = 'none';
+                        grid.hidden = true;
+                    });
+
+                    // Set new content
+                    dynamicTitle.textContent = targetTitle;
+                    const activeGrid = document.getElementById(targetId);
+                    if (activeGrid) {
+                        activeGrid.classList.add('active-grid');
+                        activeGrid.style.display = 'grid';
+                        activeGrid.hidden = false;
+                    }
+                    currentActiveTarget = targetId;
+
+                    // Expand with new content
+                    expandDropdown(() => {
+                        smoothScrollToElement(dynamicBanner);
+                    });
+                });
+                return;
+            }
+
+            // Otherwise, open the clicked section fresh
+            isAnimating = true;
             dynamicTitle.textContent = targetTitle;
 
             projectGrids.forEach((grid) => {
@@ -486,13 +566,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 activeGrid.hidden = false;
             }
 
-            dynamicBanner.style.display = 'block';
-            gridsContainer.style.display = 'block';
             currentActiveTarget = targetId;
 
-            // Recalculate scrollable area after expanding, then scroll
-            requestAnimationFrame(() => {
-                recalcMaxScrollY();
+            expandDropdown(() => {
                 smoothScrollToElement(dynamicBanner);
             });
         });
