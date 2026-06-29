@@ -26,6 +26,11 @@ img {
     display: block;
 }
 
+@keyframes pageFadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
 body {
     /* Soft gradient background to match your design */
     background: linear-gradient(to bottom, #e4e9f0 0%, #f7f8fa 50%, #e4e9f0 100%);
@@ -34,6 +39,7 @@ body {
     min-height: 100vh;
     text-align: center;
     overflow-x: hidden;
+    animation: pageFadeIn 0.8s ease-out forwards;
 }
 
 /* --- Header Section --- */
